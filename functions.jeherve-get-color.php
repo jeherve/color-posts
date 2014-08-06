@@ -29,6 +29,8 @@ function colorposts_get_post_image() {
 		$the_image = Jetpack_PostImages::get_image( $post_id );
 		if ( ! empty( $the_image['src'] ) ) {
 			$the_image = $the_image['src'];
+		} else {
+			$the_image = apply_filters( 'jetpack_open_graph_image_default', "http://wordpress.com/i/blank.jpg" );
 		}
 	}
 
