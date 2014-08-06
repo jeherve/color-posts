@@ -17,7 +17,6 @@ add_action( 'after_setup_theme', 'colorposts_call_tonesque', 9 );
 * Get an image from a post
 *
 * @uses Jetpack_PostImages::get_image( $post_id ) to get the source of an image in a post, apply_filters()
-* @param int $post_id The post ID to check
 *
 * @since Color Posts 1.0
 *
