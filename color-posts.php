@@ -14,9 +14,9 @@ class Jeherve_Color_Posts {
 	private static $instance;
 
 	static function get_instance() {
-		if ( ! self::$instance )
+		if ( ! self::$instance ) {
 			self::$instance = new Jeherve_Color_Posts;
-
+		}
 		return self::$instance;
 	}
 
