@@ -26,12 +26,10 @@ function colorposts_get_post_image() {
 	$post_id = get_the_ID();
 
 	if ( class_exists( 'Jetpack_PostImages' ) ) {
-
 		$the_image = Jetpack_PostImages::get_image( $post_id );
 		if ( ! empty( $the_image['src'] ) ) {
 			$the_image = $the_image['src'];
 		}
-
 	}
 
 	$the_image = apply_filters( 'colorposts_image_output', $the_image );
@@ -59,6 +57,7 @@ function colorposts_build_css() {
 		// No color? Let's get one
 		if ( empty( $tonesque ) ) {
 			$post_image = colorposts_get_post_image( $post_id );
+
 			$tonesque = new Tonesque( $post_image );
 			$tonesque = array(
 				'color'    => $tonesque->color(),
