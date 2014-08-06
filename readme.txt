@@ -1,7 +1,7 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.0
+Stable tag: 1.1
 Requires at least: 3.8
 Tested up to: 3.9.2
 
@@ -67,6 +67,8 @@ add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_i
 
 == Changelog ==
 
-= 1.0 =
+= 1.1 =
+* Add default fallback image and documentation
 
+= 1.0 =
 * Initial release
