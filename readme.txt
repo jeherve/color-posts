@@ -54,6 +54,17 @@ You can do so thanks to the `colorposts_image_output` filter, like so:
 }
 add_filter( 'colorposts_image_output', 'jeherve_use_custom_image' );`
 
+= How do I change the default color that is assigned to posts without an image =
+
+You can define a default image that will be used to create a color for all posts that don't include an image.
+To do so, you can use the `jetpack_open_graph_image_default` filter, like so:
+
+`function jeherve_custom_colors_default_img( $the_image ) {
+	$the_image = 'http://f.cl.ly/items/3z0o2k2F3w0D0p0k1Y35/cool.gif'; // Whatever image you want, you could grab it from a custom field
+	return esc_url( $the_image );
+}
+add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_img' );`
+
 == Changelog ==
 
 = 1.0 =
