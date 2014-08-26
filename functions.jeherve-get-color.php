@@ -51,7 +51,7 @@ function colorposts_build_css() {
 	$post_id = get_the_ID();
 
 	// Only add color if a single page is displayed
-	if ( is_single() ) {
+	if ( is_singular() ) {
 
 		// Grab color from post meta
 		$tonesque = get_post_meta( $post_id, '_post_colors', true );
