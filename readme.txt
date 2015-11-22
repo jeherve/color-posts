@@ -70,6 +70,7 @@ add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_i
 
 = 1.2 =
 * Add background color to Chrome for Android.
+* Display custom colors on pages as well.
 
 = 1.1 =
 * Add default fallback image and documentation.
