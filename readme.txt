@@ -1,7 +1,7 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.1
+Stable tag: 1.2
 Requires at least: 3.9
 Tested up to: 4.4
 
@@ -10,6 +10,7 @@ Color Posts changes the background color of your post to match the image you've 
 == Description ==
 
 Color Posts grabs an image from your post, samples it, creates a matching color and a contrast value (black or white), and changes the post's background color to match the image.
+It also changes the background color of your window in Chrome for Android.
 
 Important: for this plugin to work, you must activate [Jetpack](http://wordpress.org/plugins/jetpack/) first
 
@@ -67,8 +68,11 @@ add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_i
 
 == Changelog ==
 
+= 1.2 =
+* Add background color to Chrome for Android.
+
 = 1.1 =
-* Add default fallback image and documentation
+* Add default fallback image and documentation.
 
 = 1.0 =
-* Initial release
+* Initial release.

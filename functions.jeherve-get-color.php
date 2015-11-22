@@ -85,7 +85,7 @@ function colorposts_build_css() {
 			/**
 			 * Filters the CSS inserted in the head.
 			 *
-			 * @since 1.0
+			 * @since 1.1
 			 *
 			 * @param string $colors_css CSS code.
 			 * @param string $color      HEX color code, without the hashtag.
@@ -97,7 +97,7 @@ function colorposts_build_css() {
 			/**
 			 * Filters the complete CSS output, including the style tags.
 			 *
-			 * @since 1.1
+			 * @since 1.2
 			 *
 			 * @param string $custom_css Custom CSS output.
 			 * @param string $color      HEX color code, without the hashtag.
@@ -117,7 +117,7 @@ add_action( 'wp_head', 'colorposts_build_css' );
  * This meta tag allows Android to change the color of the address bar.
  * This will now match the post color.
  *
- * @since 1.1
+ * @since 1.2
  *
  * @return string $custom_css Custom CSS output and our extra color tag if the color is set.
  */
