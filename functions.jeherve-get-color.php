@@ -82,16 +82,63 @@ function colorposts_build_css() {
 
 			$colors_css = "body { background: #{$color} !important; }";
 
+			/**
+			 * Filters the CSS inserted in the head.
+			 *
+			 * @since 1.0
+			 *
+			 * @param string $colors_css CSS code.
+			 * @param string $color      HEX color code, without the hashtag.
+			 * @param string $contrast   Contrast matching the post. Either black or white. Defined in RGB.
+			 */
 			$custom_css .= apply_filters( 'colorposts_css_output', $colors_css, $color, $contrast );
 			$custom_css .= "\n</style>\n";
 
-			echo $custom_css;
+			/**
+			 * Filters the complete CSS output, including the style tags.
+			 *
+			 * @since 1.1
+			 *
+			 * @param string $custom_css Custom CSS output.
+			 * @param string $color      HEX color code, without the hashtag.
+			 * @param string $contrast   Contrast matching the post. Either black or white. Defined in RGB.
+			 */
+			echo apply_filters( 'colorposts_css_tag', $custom_css, $color, $contrast );
 		}
 
 	} // End is_single()
 
 }
 add_action( 'wp_head', 'colorposts_build_css' );
+
+/**
+ * Add a theme-color meta tag to the head
+ *
+ * This meta tag allows Android to change the color of the address bar.
+ * This will now match the post color.
+ *
+ * @since 1.1
+ *
+ * @return string $custom_css Custom CSS output and our extra color tag if the color is set.
+ */
+function colorposts_color_meta_tag( $custom_css, $color, $contrast ) {
+
+	// Bail early if no color is set.
+	if ( ! $color || empty( $color ) ) {
+		return $custom_css;
+	}
+
+	// Create our tag.
+	$color_tag = sprintf(
+		'<meta name="theme-color" content="#%1$s" />%2$s',
+		$color,
+		"\n"
+	);
+
+	// Add the tag below the Custom CSS
+	return $custom_css . $color_tag;
+}
+add_filter( 'colorposts_css_tag', 'colorposts_color_meta_tag', 10, 3 );
 
 /**
 * Flush out the post meta used in colorposts_build_css().
