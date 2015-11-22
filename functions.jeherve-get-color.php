@@ -1,12 +1,12 @@
 <?php
 
 /**
-* Add Theme support for Tonesque
-*
-* @uses add_theme_support()
-*
-* @since Color Posts 1.0
-*/
+ * Add Theme support for Tonesque
+ *
+ * @uses add_theme_support()
+ *
+ * @since 1.0
+ */
 function colorposts_call_tonesque() {
 	add_theme_support( 'tonesque' );
 }
@@ -14,14 +14,14 @@ add_action( 'after_setup_theme', 'colorposts_call_tonesque', 9 );
 
 
 /**
-* Get an image from a post
-*
-* @uses Jetpack_PostImages::get_image( $post_id ) to get the source of an image in a post, apply_filters()
-*
-* @since Color Posts 1.0
-*
-* @return string the image source
-*/
+ * Get an image from a post
+ *
+ * @uses Jetpack_PostImages::get_image( $post_id ) to get the source of an image in a post, apply_filters()
+ *
+ * @since 1.0
+ *
+ * @return string $the_image the image source
+ */
 function colorposts_get_post_image() {
 	$post_id = get_the_ID();
 
@@ -41,12 +41,12 @@ function colorposts_get_post_image() {
 
 
 /**
-* Build CSS from Tonesque
-*
-* @uses get_the_ID(), is_single(), get_post_meta(), colorposts_get_post_image(), update_post_meta(), apply_filters()
-*
-* @since Color Posts 1.0
-*/
+ * Build CSS from Tonesque
+ *
+ * @uses get_the_ID(), is_single(), get_post_meta(), colorposts_get_post_image(), update_post_meta(), apply_filters()
+ *
+ * @since 1.0
+ */
 function colorposts_build_css() {
 	$post_id = get_the_ID();
 
@@ -141,13 +141,13 @@ function colorposts_color_meta_tag( $custom_css, $color, $contrast ) {
 add_filter( 'colorposts_css_tag', 'colorposts_color_meta_tag', 10, 3 );
 
 /**
-* Flush out the post meta used in colorposts_build_css().
-*
-* @uses delete_post_meta()
-* @param int $post_id The ID of the saved post.
-*
-* @since Color Posts 1.0
-*/
+ * Flush out the post meta used in colorposts_build_css().
+ *
+ * @uses delete_post_meta()
+ * @param int $post_id The ID of the saved post.
+ *
+ * @since 1.0
+ */
 function colorposts_post_meta_flusher( $post_id ) {
 	delete_post_meta( $post_id, '_post_colors' );
 }
