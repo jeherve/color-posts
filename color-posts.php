@@ -7,7 +7,7 @@
  * Version: 1.2
  * Author URI: http://jeremy.hu
  * License: GPL2+
- * Textdomain: colorposts
+ * Textdomain: color-posts
  */
 
 class Jeherve_Color_Posts {
@@ -28,7 +28,7 @@ class Jeherve_Color_Posts {
 	}
 
 	public function load_textdomain() {
-		load_plugin_textdomain( 'colorposts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'color-posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	public function load_plugin() {
@@ -43,7 +43,7 @@ class Jeherve_Color_Posts {
 	// Prompt to install Jetpack
 	public function install_jetpack() {
 		echo '<div class="error"><p>';
-		printf( __( 'To use the Color Posts plugin, you\'ll need to install and activate <a href="%s">Jetpack</a> first.', 'colorposts' ),
+		printf( __( 'To use the Color Posts plugin, you\'ll need to install and activate <a href="%s">Jetpack</a> first.', 'color-posts' ),
 		'plugin-install.php?tab=search&s=jetpack&plugin-search-input=Search+Plugins'
 		);
 		echo '</p></div>';
