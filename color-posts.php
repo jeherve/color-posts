@@ -25,6 +25,8 @@ class Jeherve_Color_Posts {
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		// Load plugin
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
+		// Add colors to REST API Post response
+		add_action( 'rest_api_init',  array( $this, 'rest_register_colors' ) );
 	}
 
 	public function load_textdomain() {
@@ -47,6 +49,39 @@ class Jeherve_Color_Posts {
 		'plugin-install.php?tab=search&s=jetpack&plugin-search-input=Search+Plugins'
 		);
 		echo '</p></div>';
+	}
+
+	/**
+	 * Add Colors to REST API Post responses.
+	 *
+	 * Only readable, since the color creation is made automatically.
+	 *
+	 * @since 1.3.0
+	 */
+	public function rest_register_colors() {
+		register_rest_field( 'post',
+			'colors',
+			array(
+				'get_callback'    => array( $this, 'rest_get_colors' ),
+				'update_callback' => null,
+				'schema'          => null,
+			)
+		);
+	}
+
+	/**
+	 * Get the colors for the API.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param array $object Details of current post.
+	 * @param string $field_name Name of field.
+	 * @param WP_REST_Request $request Current request
+	 *
+	 * @return array $colors Array of colors stored for that Post ID.
+	 */
+	public function rest_get_colors( $object, $field_name, $request ) {
+		return get_post_meta( $object['id'], '_post_colors', true );
 	}
 }
 // And boom.
