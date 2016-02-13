@@ -7,7 +7,8 @@
  * Version: 1.3
  * Author URI: https://jeremy.hu
  * License: GPL2+
- * Textdomain: color-posts
+ * Text Domain: color-posts
+ * Domain Path: /languages
  */
 
 class Jeherve_Color_Posts {
