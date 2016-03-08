@@ -141,6 +141,44 @@ function colorposts_color_meta_tag( $custom_css, $color, $contrast ) {
 add_filter( 'colorposts_css_tag', 'colorposts_color_meta_tag', 10, 3 );
 
 /**
+ * Change the look of the AMP default template.
+ *
+ * Useful if you use the AMP Plugin: https://wordpress.org/plugins/amp/
+ * We'll change the title bar to match the post color.
+ *
+ * @since 1.4
+ *
+ * @return null
+ */
+function colorposts_color_amp_template() {
+	$post_id = get_the_ID();
+	if ( ! $post_id ) {
+		return;
+	}
+
+	// Grab color from post meta
+	$tonesque = get_post_meta( $post_id, '_post_colors', true );
+	if ( ! empty( $tonesque ) ) {
+		extract( $tonesque );
+	}
+
+	// If we have custom colors, use them to change the look of AMP's title bar.
+	if (
+		isset( $color, $contrast ) &&
+		( ! empty( $color ) && ! empty( $contrast ) )
+	) : ?>
+		nav.amp-wp-title-bar {
+			background-color:#<?php echo $color; ?>;
+		}
+		nav.amp-wp-title-bar a {
+			color: rgba(<?php echo $contrast; ?>,1);
+		}
+	<?php
+	endif;
+}
+add_action( 'amp_post_template_css', 'colorposts_color_amp_template' );
+
+/**
  * Flush out the post meta used in colorposts_build_css().
  *
  * @uses delete_post_meta()
