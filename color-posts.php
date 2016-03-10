@@ -11,6 +11,8 @@
  * Domain Path: /languages
  */
 
+define( 'COLORPOSTS__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
 class Jeherve_Color_Posts {
 	private static $instance;
 
@@ -26,8 +28,6 @@ class Jeherve_Color_Posts {
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		// Load plugin
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
-		// Add colors to REST API Post response
-		add_action( 'rest_api_init',  array( $this, 'rest_register_colors' ) );
 	}
 
 	public function load_textdomain() {
@@ -37,13 +37,31 @@ class Jeherve_Color_Posts {
 	public function load_plugin() {
 		// Check if Jetpack is active
 		if ( class_exists( 'Jetpack' ) ) {
-			require_once 'functions.jeherve-get-color.php';
+
+			// Load our functions.
+			require_once( COLORPOSTS__PLUGIN_DIR . 'functions.color-posts.php' );
+			require_once( COLORPOSTS__PLUGIN_DIR . 'utilities.color-posts.php' );
+
+			// Add a meta box in the post editor.
+			if ( is_admin() ) {
+				require_once( COLORPOSTS__PLUGIN_DIR . 'admin.color-posts.php' );
+			}
+
+			// Add colors to REST API Post response
+			add_action( 'rest_api_init',  array( $this, 'rest_register_colors' ) );
+
 		} else {
+
 			add_action( 'admin_notices',  array( $this, 'install_jetpack' ) );
+
 		}
 	}
 
-	// Prompt to install Jetpack
+	/**
+	 * Prompt to install Jetpack.
+	 *
+	 * @since 1.0
+	 */
 	public function install_jetpack() {
 		echo '<div class="error"><p>';
 		printf( __( 'To use the Color Posts plugin, you\'ll need to install and activate <a href="%s">Jetpack</a> first.', 'color-posts' ),
