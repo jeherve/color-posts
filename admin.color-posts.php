@@ -121,7 +121,7 @@ function colorposts_save_metabox( $post_id ) {
 			// Build our new array of custom colors.
 			$colors = array(
 				'color'    => sanitize_hex_color_no_hash( $_POST['colorposts_custom_color'] ),
-				'contrast' => colorposts_get_contrast( $post_color ),
+				'contrast' => colorposts_get_contrast( $_POST['colorposts_custom_color'] ),
 				'custom'   => true,
 			);
 
