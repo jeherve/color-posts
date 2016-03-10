@@ -1,7 +1,7 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.5
+Stable tag: 1.5.1
 Requires at least: 4.3
 Tested up to: 4.4.2
 
@@ -71,6 +71,9 @@ To do so, you can use the `jetpack_open_graph_image_default` filter, like so:
 add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_img' );`
 
 == Changelog ==
+
+= 1.5.1 =
+* Fix Fatal Error on post update.
 
 = 1.5 =
 * You can now set your own custom color if you don't like the one that's automatically calculated from the post image.

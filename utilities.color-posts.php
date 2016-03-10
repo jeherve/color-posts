@@ -128,3 +128,21 @@ function colorposts_post_meta_flusher( $post_id ) {
 	}
 }
 add_action( 'save_post', 'colorposts_post_meta_flusher' );
+
+/**
+ * Sanitize Color Hex code
+ *
+ * @since 1.5.1
+ */
+function colorposts_sanitize_hex_color_no_hash( $color ) {
+	$color = ltrim( $color, '#' );
+
+	if ( '' === $color ) {
+		return;
+	}
+
+	// 3 or 6 hex digits, or the empty string.
+	if ( preg_match('|^([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		return $color;
+	}
+}

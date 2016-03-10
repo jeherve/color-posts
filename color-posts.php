@@ -4,7 +4,7 @@
  * Plugin URI: http://wordpress.org/plugins/color-posts/
  * Description: Color Posts changes the background color of your post to match the image you've inserted into that post.
  * Author: Jeremy Herve
- * Version: 1.5
+ * Version: 1.5.1
  * Author URI: https://jeremy.hu
  * License: GPL2+
  * Text Domain: color-posts
@@ -117,7 +117,7 @@ class Jeherve_Color_Posts {
 	 * @return bool|int
 	 */
 	public function rest_update_colors( $color, $object, $field_name ) {
-		$color = sanitize_hex_color_no_hash( $color );
+		$color = colorposts_sanitize_hex_color_no_hash( $color );
 
 		if ( ! isset( $color ) || ! empty( $color ) ) {
 			return new WP_Error( 'bad-post-color', __( 'The specified color is in an invalid format.', 'color-posts' ) );

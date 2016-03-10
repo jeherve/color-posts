@@ -118,10 +118,13 @@ function colorposts_save_metabox( $post_id ) {
 		if ( $post_color == $_POST['colorposts_custom_color'] ) {
 			return $post_id;
 		} else {
+			$sanitized_color = colorposts_sanitize_hex_color_no_hash( $_POST['colorposts_custom_color'] );
+			$contrast = colorposts_get_contrast( $_POST['colorposts_custom_color'] );
+
 			// Build our new array of custom colors.
 			$colors = array(
-				'color'    => sanitize_hex_color_no_hash( $_POST['colorposts_custom_color'] ),
-				'contrast' => colorposts_get_contrast( $_POST['colorposts_custom_color'] ),
+				'color'    => $sanitized_color,
+				'contrast' => $contrast,
 				'custom'   => true,
 			);
 
