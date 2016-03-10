@@ -73,8 +73,6 @@ class Jeherve_Color_Posts {
 	/**
 	 * Add Colors to REST API Post responses.
 	 *
-	 * Only readable, since the color creation is made automatically.
-	 *
 	 * @since 1.3.0
 	 */
 	public function rest_register_colors() {
@@ -82,7 +80,7 @@ class Jeherve_Color_Posts {
 			'colors',
 			array(
 				'get_callback'    => array( $this, 'rest_get_colors' ),
-				'update_callback' => null,
+				'update_callback' => array( $this, 'rest_update_colors' ),
 				'schema'          => null,
 			)
 		);
@@ -101,6 +99,37 @@ class Jeherve_Color_Posts {
 	 */
 	public function rest_get_colors( $object, $field_name, $request ) {
 		return get_post_meta( $object['id'], '_post_colors', true );
+	}
+
+	/**
+	 * Update colors from the API.
+	 *
+	 * Only accepts a single color hex value, without a hash.
+	 * "Contrast" is calculated based on that color.
+	 * "Custom" is always true, since color is defined manually.
+	 *
+	 * @since 1.5
+	 *
+	 * @param string $color New average color value. hex value, without a hash.
+	 * @param object $object The object from the response.
+	 * @param string $field_name Name of field.
+	 *
+	 * @return bool|int
+	 */
+	public function rest_update_colors( $color, $object, $field_name ) {
+		$color = sanitize_hex_color_no_hash( $color );
+
+		if ( ! isset( $color ) || ! empty( $color ) ) {
+			return new WP_Error( 'bad-post-color', __( 'The specified color is in an invalid format.', 'color-posts' ) );
+		}
+
+		$colors = array(
+			'color'    => $color,
+			'contrast' => colorposts_get_contrast( $color ),
+			'custom'   => true,
+		);
+
+		return update_post_meta( $object->ID, '_post_colors', $colors );
 	}
 }
 // And boom.
