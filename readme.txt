@@ -1,8 +1,8 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.4
-Requires at least: 3.9
+Stable tag: 1.5
+Requires at least: 4.3
 Tested up to: 4.4.2
 
 Color Posts changes the background color of your post to match the image you've inserted into that post.
@@ -11,6 +11,8 @@ Color Posts changes the background color of your post to match the image you've 
 
 Color Posts grabs an image from your post, samples it, creates a matching color and a contrast value (black or white), and changes the post's background color to match the image.
 It also changes the background color of your window in Chrome for Android, and customizes the look of the AMP default template if you use [the AMP plugin](https://wordpress.org/plugins/amp/).
+
+If you're not happy with the automatically picked color, you can define your own custom color thanks to the "Post Color" meta box in the post editor.
 
 If you'd like to use post colors via the REST API, you can use the `colors` field in the post response.
 
@@ -69,6 +71,14 @@ To do so, you can use the `jetpack_open_graph_image_default` filter, like so:
 add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_img' );`
 
 == Changelog ==
+
+= 1.5 =
+* You can now set your own custom color if you don't like the one that's automatically calculated from the post image.
+	* You can do so from a color picker in the post and page editor.
+	* If you don't touch the color picker, the plugin keeps using the post image to calculate a post color.
+	* As soon as you touch the color picker, the plugin uses that color instead.
+* Refactoring to accommodate the new admin interface.
+* REST API: Allow defining custom color via the API.
 
 = 1.4 =
 * Add colors to AMP's Default template if you use [the AMP plugin](https://wordpress.org/plugins/amp/).
