@@ -78,7 +78,13 @@ class Jeherve_Color_Posts {
 	 * @since 1.3.0
 	 */
 	public function rest_register_colors() {
-		register_rest_field( 'post',
+		// List all public post types.
+		$post_type_args = array(
+			'public'   => true,
+		);
+		$post_types = get_post_types( $post_type_args );
+
+		register_rest_field( $post_types,
 			'colors',
 			array(
 				'get_callback'    => array( $this, 'rest_get_colors' ),
