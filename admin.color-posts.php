@@ -27,11 +27,13 @@ add_action( 'admin_enqueue_scripts', 'colorposts_enqueue_admin_scripts' );
  * @uses add_meta_box()
  */
 function colorposts_add_metabox() {
+	$post_types = get_post_types( array( 'public' => true ) );
+
 	add_meta_box(
 		'colorposts-color',
 		__( 'Post Color', 'color-posts' ),
 		'colorposts_display_metabox',
-		array( 'post', 'page' ),
+		(array) $post_types,
 		'side',
 		'low'
 	);
