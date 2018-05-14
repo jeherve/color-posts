@@ -4,7 +4,7 @@
  * Plugin URI: http://wordpress.org/plugins/color-posts/
  * Description: Color Posts changes the background color of your post to match the image you've inserted into that post.
  * Author: Jeremy Herve
- * Version: 1.5.2
+ * Version: 1.6
  * Author URI: https://jeremy.hu
  * License: GPL2+
  * Text Domain: color-posts
