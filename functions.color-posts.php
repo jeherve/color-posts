@@ -41,8 +41,10 @@ function colorposts_build_css() {
 		if ( empty( $color ) || empty( $contrast ) ) {
 			return;
 		} else {
-			$custom_css = "\n<style type='text/css'>\n";
+			$color      = esc_attr( $color );
+			$contrast   = esc_attr( $contrast );
 
+			$custom_css = "\n<style type='text/css'>\n";
 			$colors_css = "body { background: #{$color} !important; }";
 
 			/**
@@ -94,7 +96,7 @@ function colorposts_color_meta_tag( $custom_css, $color, $contrast ) {
 	// Create our tag.
 	$color_tag = sprintf(
 		'<meta name="theme-color" content="#%1$s" />%2$s',
-		$color,
+		esc_attr( $color ),
 		"\n"
 	);
 
@@ -126,15 +128,12 @@ function colorposts_color_amp_template() {
 	}
 
 	// If we have custom colors, use them to change the look of AMP's title bar.
-	if (
-		isset( $color, $contrast ) &&
-		( ! empty( $color ) && ! empty( $contrast ) )
-	) : ?>
+	if ( ! empty( $color ) && ! empty( $contrast ) ) : ?>
 		nav.amp-wp-title-bar {
-			background-color:#<?php echo $color; ?>;
+			background-color:#<?php echo esc_attr( $color ); ?>;
 		}
 		nav.amp-wp-title-bar a {
-			color: rgba(<?php echo $contrast; ?>,1);
+			color: rgba(<?php echo esc_attr( $contrast ); ?>,1);
 		}
 	<?php
 	endif;

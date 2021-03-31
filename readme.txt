@@ -2,7 +2,7 @@
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
 Stable tag: 1.6.1
-Requires at least: 4.4
+Requires at least: 4.7
 Tested up to: 5.7
 
 Color Posts changes the background color of your post to match the image you've inserted into that post.
@@ -77,6 +77,7 @@ Release Date: March 31, 2021
 
 * Internationalization: remove custom translation implementation, WordPress' language packs handle everything these days.
 * Custom contrast value: avoid issues when saving new value.
+* Ensure the values saved and displayed are always as expected.
 
 = 1.6 =
 
