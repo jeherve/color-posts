@@ -81,7 +81,7 @@ function colorposts_display_metabox( $post ) {
 		<input id="color-posts-input" class="color-picker-hex" type="text" maxlength="7" placeholder="%2$s" name="colorposts_custom_color" />
 		<p class="hide-if-no-js howto">%3$s</p>',
 		esc_attr( $post_color ),
-		esc_attr( 'Select Color' ),
+		esc_attr__( 'Select Color', 'color-posts' ),
 		esc_html__( 'Define your own custom color', 'color-posts' )
 	);
 }
