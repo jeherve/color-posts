@@ -107,7 +107,7 @@ function colorposts_get_contrast( $color ) {
 	}
 
 	$c = $c->getMaxContrastColor();
-	return implode( $c->toRgbInt(), ',' );
+	return implode( ',', $c->toRgbInt() );
 }
 
 /**

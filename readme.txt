@@ -76,6 +76,7 @@ add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_i
 Release Date: March 31, 2021
 
 * Internationalization: remove custom translation implementation, WordPress' language packs handle everything these days.
+* Custom contrast value: avoid issues when saving new value.
 
 = 1.6 =
 
