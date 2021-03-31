@@ -1,9 +1,9 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.6
+Stable tag: 1.6.1
 Requires at least: 4.4
-Tested up to: 4.9
+Tested up to: 5.7
 
 Color Posts changes the background color of your post to match the image you've inserted into that post.
 
@@ -71,6 +71,11 @@ To do so, you can use the `jetpack_open_graph_image_default` filter, like so:
 add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_img' );`
 
 == Changelog ==
+
+= 1.6.1 =
+Release Date: March 31, 2021
+
+* Internationalization: remove custom translation implementation, WordPress' language packs handle everything these days.
 
 = 1.6 =
 

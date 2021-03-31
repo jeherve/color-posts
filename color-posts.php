@@ -24,14 +24,8 @@ class Jeherve_Color_Posts {
 	}
 
 	private function __construct() {
-		// Load translations
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		// Load plugin
 		add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
-	}
-
-	public function load_textdomain() {
-		load_plugin_textdomain( 'color-posts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	public function load_plugin() {
