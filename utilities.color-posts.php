@@ -95,8 +95,13 @@ function colorposts_get_average_color( $post_id ) {
  * @return string|false $contrast Contrast color, in RGB.
  */
 function colorposts_get_contrast( $color ) {
-	if ( function_exists( 'jetpack_require_lib' ) ) {
-		jetpack_require_lib( 'class.color' );
+	if ( ! defined( 'JETPACK__PLUGIN_DIR' ) ) {
+		return false;
+	}
+
+	$jetpack_color_lib = JETPACK__PLUGIN_DIR . '/_inc/lib/class.color.php';
+	if ( is_readable( $jetpack_color_lib ) ) {
+		require_once $jetpack_color_lib;
 	} else {
 		return false;
 	}
