@@ -3,7 +3,7 @@ Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
 Stable tag: 1.6.2
 Requires at least: 4.7
-Tested up to: 6.0
+Tested up to: 6.2
 
 Color Posts changes the background color of your post to match the image you've inserted into that post.
 
