@@ -1,9 +1,10 @@
 === Color Posts ===
 Contributors: jeherve
 Tags: Colors, Posts, Tonesque, Jetpack, Theme
-Stable tag: 1.6.2
-Requires at least: 4.7
-Tested up to: 6.2
+Stable tag: 2.0.0
+Requires at least: 5.6
+Requires PHP: 7.1
+Tested up to: 6.6
 
 Color Posts changes the background color of your post to match the image you've inserted into that post.
 
@@ -16,18 +17,15 @@ If you're not happy with the automatically picked color, you can define your own
 
 If you'd like to use post colors via the REST API, you can use the `colors` field in the post response.
 
-Important: for this plugin to work, you must activate [Jetpack](http://wordpress.org/plugins/jetpack/) first.
-
 If you find bugs, you can report them [here](http://wordpress.org/support/plugin/color-posts), or submit a pull request [on GitHub](https://github.com/jeherve/color-posts/).
 
 You can read more about how the plugin works here: [Color Posts plugin: how to use Jetpack libs in your plugin](http://jeremy.hu/color-posts-jetpack-plugin/)
 
 == Installation ==
 
-1. Install the Jetpack plugin
-2. Install the Color Posts plugin via the WordPress.org plugin repository, or via your dashboard
-3. Activate the plugin
-4. Enjoy! :)
+1. Install the Color Posts plugin via the WordPress.org plugin repository, or via your dashboard
+2. Activate the plugin
+3. Enjoy! :)
 
 == Frequently Asked Questions ==
 
@@ -71,6 +69,11 @@ To do so, you can use the `jetpack_open_graph_image_default` filter, like so:
 add_filter( 'jetpack_open_graph_image_default', 'jeherve_custom_colors_default_img' );`
 
 == Changelog ==
+
+= 2.0.0 =
+Release Date: July 16, 2024
+
+* Compatibility: remove the plugin's reliance on the Jetpack plugin. It can now be used on its own.
 
 = 1.6.2 =
 Release Date: August 26, 2022

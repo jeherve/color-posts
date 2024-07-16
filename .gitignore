@@ -1,0 +1,6 @@
+# Folders
+vendor/
+wordpress/
+
+# Files
+**/.DS_Store

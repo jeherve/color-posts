@@ -1,0 +1,52 @@
+{
+  "name": "jeherve/color-posts",
+  "description": "Color Posts changes the background color of your post to match the image you've inserted into that post.",
+  "homepage": "https://wordpress.org/plugins/color-posts/",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "support": {
+    "issues": "https://github.com/jeherve/color-posts/issues"
+  },
+  "require": {
+    "automattic/jetpack-autoloader": "3.0.9",
+    "automattic/jetpack-classic-theme-helper": "0.4.1"
+  },
+  "require-dev": {
+    "automattic/jetpack-codesniffer": "3.0.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "php-parallel-lint/php-parallel-lint": "1.4.0"
+  },
+  "scripts": {
+    "php:lint": [
+      "vendor/bin/parallel-lint --exclude vendor ."
+    ],
+    "phpcs:compatibility": [
+      "@phpcs:lint --standard=./.phpcs.xml.dist,PHPCompatibilityWP"
+    ],
+    "phpcs:fix": [
+      "Composer\\Config::disableProcessTimeout",
+      "phpcbf -p"
+    ],
+    "phpcs:lint": [
+      "Composer\\Config::disableProcessTimeout",
+      "phpcs -p -s"
+    ],
+    "phpcs:lint:errors": [
+      "@phpcs:lint --runtime-set ignore_warnings_on_exit 1"
+    ]
+  },
+  "autoload": {
+    "classmap": [
+      "src"
+    ]
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "automattic/jetpack-autoloader": true,
+      "roots/wordpress-core-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

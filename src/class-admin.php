@@ -1,0 +1,154 @@
+<?php
+/**
+ * Overwrite Colors from the dashboard.
+ *
+ * @package jeherve/color-posts
+ */
+
+declare( strict_types=1 );
+
+namespace Jeherve\Color_Posts;
+
+/**
+ * Admin features for the plugin.
+ */
+class Admin {
+	/**
+	 * Enqueue Color Picker on Post and Page editor.
+	 *
+	 * @since 1.5
+	 *
+	 * @param string $hook The current admin page.
+	 */
+	public function enqueue_admin_scripts( $hook ) {
+		if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'wp-color-picker' );
+			wp_enqueue_style( 'wp-color-picker' );
+		}
+	}
+
+	/**
+	 * Register Meta box.
+	 *
+	 * @since 1.5
+	 *
+	 * @uses add_meta_box()
+	 */
+	public function add_metabox() {
+		$post_types = get_post_types( array( 'public' => true ) );
+
+		add_meta_box(
+			'colorposts-color',
+			__( 'Post Color', 'color-posts' ),
+			array( $this, 'display_metabox' ),
+			(array) $post_types,
+			'side',
+			'low'
+		);
+	}
+
+	/**
+	 * Display the Meta box.
+	 *
+	 * @since 1.5
+	 *
+	 * @param \WP_Post $post Current post object.
+	 */
+	public function display_metabox( $post ) {
+		// Get our Post color
+		$post_color = Utilities::get_average_color( $post->ID );
+
+		if ( ! empty( $post_color ) ) {
+			$post_color = $post_color;
+		} else {
+			/**
+			 * Filter the default color used when no image has been selected yet.
+			 *
+			 * @since 1.5
+			 *
+			 * @param string $post_color Default Post color.
+			 */
+			$post_color = apply_filters( 'colorposts_default_color', 'fff' );
+		}
+
+		printf(
+			'<script type="text/javascript">
+				jQuery(document).ready(function($){
+					var colorpostsOptions = {
+						defaultColor: "#%1$s",
+						change: function(event, ui) {
+							document.getElementById("color-posts-input").value = "#%1$s";
+						},
+						palettes: true
+					};
+					$(".color-picker-hex").wpColorPicker(colorpostsOptions);
+					$(".wp-color-result").css( "background-color", "#%1$s" );
+				});
+			</script>
+			<input id="color-posts-input" class="color-picker-hex" type="text" maxlength="7" placeholder="%2$s" name="colorposts_custom_color" />
+			<p class="hide-if-no-js howto">%3$s</p>%4$s',
+			esc_attr( $post_color ),
+			esc_attr__( 'Select Color', 'color-posts' ),
+			esc_html__( 'Define your own custom color', 'color-posts' ),
+			wp_nonce_field( 'colorposts_save_nonce', 'colorposts_save_nonce', true, false ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- this is a nonce field, built by me.
+		);
+	}
+
+	/**
+	 * To do
+	 * Value must not be set so we don't resave post meta on each save_post
+	 * but when value is not set, the color picker doesn't look good, doesn't include the value, even if a default color is set.
+	 *
+	 * Make sure we recalculate a contrast color
+	 * make sure we don't overwrite the default when nothing is done (new post and stuff)
+	 *
+	 * use Jetpack Custom CSS to create palettes of colors to add to the color picker:
+	 * palettes: ['#125', '#459', '#78b', '#ab0', '#de3', '#f0f']
+	 */
+
+	/**
+	 * Save the Meta box content.
+	 *
+	 * @since 1.5
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public function save_metabox( $post_id ) {
+		if (
+			( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			|| ! current_user_can( 'edit_post', $post_id )
+		) {
+			return $post_id;
+		}
+
+		// Check if our nonce is set.
+		if (
+			! isset( $_POST['colorposts_save_nonce'] )
+			|| ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['colorposts_save_nonce'] ) ), 'colorposts_save_nonce' )
+		) {
+			return $post_id;
+		}
+
+		if ( isset( $_POST['colorposts_custom_color'] ) ) {
+			$post_color = Utilities::get_average_color( $post_id );
+
+			// No need to do anything if the color hasn't changed.
+			if ( $post_color === $_POST['colorposts_custom_color'] ) {
+				return $post_id;
+			} else {
+				// Build our new array of custom colors.
+				$colors = array(
+					'color'    => sanitize_hex_color_no_hash( wp_unslash( $_POST['colorposts_custom_color'] ) ),
+					'contrast' => Utilities::get_contrast( sanitize_hex_color_no_hash( wp_unslash( $_POST['colorposts_custom_color'] ) ) ),
+					'custom'   => true,
+				);
+
+				// Update post meta.
+				update_post_meta( $post_id, '_post_colors', $colors );
+			}
+		}
+
+		return $post_id;
+	}
+}
