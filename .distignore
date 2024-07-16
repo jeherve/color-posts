@@ -2,7 +2,13 @@
 /.wordpress-org
 /.git
 /.github
+/tests
+/wordpress
 
 # Files
 .distignore
 .gitignore
+.phpcs.xml.dist
+phpunit.xml.dist
+.editorconfig
+composer.lock
