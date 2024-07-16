@@ -1,0 +1,157 @@
+# This workflow holds jobs for linting, currently PHP only.
+
+name: Linting
+
+on: pull_request
+
+env:
+  COMPOSER_ROOT_VERSION: "dev-master"
+
+jobs:
+  ### Runs `php -l` over all PHP files, in all relevant PHP versions
+  # Local equivalent: `composer php:lint`
+  php_lint:
+    name: PHP lint (${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+    timeout-minutes: 3  # Successful runs seem to take ~1 minute
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [ '8.1', '8.2' ]
+        experimental: [ false ]
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Use composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Tool versions
+        run: |
+          which php
+          php --version
+          which composer
+          composer --version
+          which jq
+          jq --version
+
+      - name: Install dependencies
+        run: |
+          # Install stuff ignoring platform reqs.
+          composer install --ignore-platform-reqs
+          # Remove stuff we don't need here that fails some platform reqs.
+          # This will complain if we missed any.
+          composer remove --dev automattic/jetpack-codesniffer
+
+      - name: Run linter
+        run: |
+          composer php:lint -- --checkstyle
+
+  ### Runs phpcs on all PHP files.
+  # Local equivalent: `composer phpcs:lint:required`
+  phpcs:
+    name: PHP Code Sniffer
+    runs-on: ubuntu-latest
+    timeout-minutes: 5 # Successful runs seem to take ~1 minute. Let's stay on the safe side.
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          tools: composer
+          extensions: mysql, imagick
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Use composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Tool versions
+        run: |
+          which php
+          php --version
+          which composer
+          composer --version
+          which jq
+          jq --version
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run phpcs
+        run: |
+          composer phpcs:lint -- --report=emacs --standard=.github/files/php-linting-phpcs.xml
+
+  ### Runs PHPCompatibility over all PHP files.
+  # Local equivalent: `composer phpcs:compatibility`
+  phpcompatibility:
+    name: PHP Compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 5 # Successful runs seem to take ~1 minute. Let's stay on the safe side.
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          tools: composer
+          extensions: mysql, imagick
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Use composer cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Tool versions
+        run: |
+          which php
+          php --version
+          which composer
+          composer --version
+          which jq
+          jq --version
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run phpcs for PHPCompatibility
+        run: |
+          composer phpcs:compatibility -- --report=emacs .
