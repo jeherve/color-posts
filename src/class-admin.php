@@ -87,10 +87,11 @@ class Admin {
 				});
 			</script>
 			<input id="color-posts-input" class="color-picker-hex" type="text" maxlength="7" placeholder="%2$s" name="colorposts_custom_color" />
-			<p class="hide-if-no-js howto">%3$s</p>',
+			<p class="hide-if-no-js howto">%3$s</p>%4$s',
 			esc_attr( $post_color ),
 			esc_attr__( 'Select Color', 'color-posts' ),
-			esc_html__( 'Define your own custom color', 'color-posts' )
+			esc_html__( 'Define your own custom color', 'color-posts' ),
+			wp_nonce_field( 'colorposts_save_nonce', 'colorposts_save_nonce', true, false ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- this is a nonce field, built by me.
 		);
 	}
 
@@ -121,6 +122,14 @@ class Admin {
 			return $post_id;
 		}
 
+		// Check if our nonce is set.
+		if (
+			! isset( $_POST['colorposts_save_nonce'] )
+			|| ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['colorposts_save_nonce'] ) ), 'colorposts_save_nonce' )
+		) {
+			return $post_id;
+		}
+
 		if ( isset( $_POST['colorposts_custom_color'] ) ) {
 			$post_color = Utilities::get_average_color( $post_id );
 
@@ -131,7 +140,7 @@ class Admin {
 				// Build our new array of custom colors.
 				$colors = array(
 					'color'    => sanitize_hex_color_no_hash( wp_unslash( $_POST['colorposts_custom_color'] ) ),
-					'contrast' => Utilities::get_contrast( wp_unslash( $_POST['colorposts_custom_color'] ) ),
+					'contrast' => Utilities::get_contrast( sanitize_hex_color_no_hash( wp_unslash( $_POST['colorposts_custom_color'] ) ) ),
 					'custom'   => true,
 				);
 
